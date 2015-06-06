@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[Ziv's Blog]]></title>
+  <subtitle><![CDATA[生命本没有意义，而我要做点儿有意义的事！]]></subtitle>
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://zivlhoo.github.io/"/>
+  <updated>2015-06-05T14:02:28.000Z</updated>
+  <id>http://zivlhoo.github.io/</id>
+  
+  <author>
+    <name><![CDATA[Ziv Hoo]]></name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[集合类型（Collection Types）]]></title>
+    <link href="http://zivlhoo.github.io/2015/06/06/CollectionTypes/"/>
+    <id>http://zivlhoo.github.io/2015/06/06/CollectionTypes/</id>
+    <published>2015-06-06T02:36:07.000Z</published>
+    <updated>2015-06-05T14:02:28.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="数组">数组</h2><p>可以存储多个<code>类型相同</code>的值。不同于oc中的NSArray和NSMutableArray</p>
+<h3 id="两种声明方式">两种声明方式</h3><ol>
+<li><code>var ary :Array&lt;String&gt;</code></li>
+<li><code>var ary :[String]</code></li>
+<li><code>var ary = [Int]()</code> 声明并初始化且元素为空</li>
+<li><code>var ary = [String](count: 5, repeatedValue: &quot;empty&quot;)</code> 指定元素个数与初始值</li>
+<li><code>var ary = Array(count: 5, repeatedValue: &quot;empty&quot;)</code></li>
+</ol>
+<h3 id="构造">构造</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">""</span>,<span class="string">""</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="访问和修改">访问和修改</h3><p>count</p>
+<p>isEmpty</p>
+<p>append()</p>
+<p>+</p>
+<p>+=</p>
+<p>[]下标访问与修改</p>
+<p>[]修改区间段的值</p>
+<p>Note:不可以使用下标在数组末尾添加新项</p>
+<p>insert(data,atIndex:index) 在index索引之前添加数据data</p>
+<p>removeAtIndex(index) 移除指定位置的数据并返回改数据</p>
+<p>removeLast()</p>
+<p>遍历数组</p>
+<ol>
+<li>for element in array</li>
+<li>for (index,value) in enumerate(array)<br>enumerate返回数组每项元素的索引和值</li>
+</ol>
+<h2 id="集合">集合</h2><p>用来存储相同类型并且没有确定顺序的值。当元素顺序不重要或者希望确保每个元素只出现一次时可以考虑使用集合。</p>
+<h3 id="语法">语法</h3><ol>
+<li><code>var sets = Set&lt;String&gt;()</code></li>
+<li><code>var sets: Set&lt;String&gt; = [&quot;&quot;,&quot;”]</code> 可以简化为<code>var sets: Set = [&quot;&quot;,&quot;”]</code></li>
+</ol>
+<h3 id="访问和修改-1">访问和修改</h3><p>count </p>
+<p>isEmpty</p>
+<p>insert</p>
+<p>remove如果值存在则删除并返回该值，否则返回nil</p>
+<p>contains检查set中是否包含一个特定的值</p>
+<p>遍历与数组相同</p>
+<p>因为set没有顺序，如果需要按照特定顺序来遍历一个set中的值可以使用全局sorted函数<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var sets :<span class="operator"><span class="keyword">Set</span> = [<span class="string">"1"</span>,<span class="string">"2"</span>,<span class="string">"3"</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> <span class="keyword">str</span> <span class="keyword">in</span> sorted(sets)&#123;</span><br><span class="line">    println(<span class="keyword">str</span>)</span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>union() 合并两个集合剔除重复的元素</p>
+<p>sets1.subtract(sets2) sets1中的元素且不在sets2中出现</p>
+<p>intersect() 两个集合中都包含的值集合</p>
+<p>exclusiveOr() 两个集合中不重复的元素集合</p>
+<p>集合间比较</p>
+<ol>
+<li>= 比较集合是否包含相同的元素</li>
+<li>setsb.isSubsetOf(setsa)         setsb是否是setsa的子集（两个集合可以相等）</li>
+<li>setsa.issupersetOf(setsb)     setsa是否是setsb的父集（两个集合可以相等）</li>
+<li>isStrictSubsetOf()或者isStrictSupersetOf()功能与上面两个函数功能相同（两个集合不能相等）</li>
+<li>isDisjoinWith()  判断两个集合是否完全不相同（没有一个相同的元素）</li>
+</ol>
+<h3 id="Set类型的哈希值">Set类型的哈希值</h3><h2 id="字典">字典</h2><p>字典是一种存储多个相同类型的值得容器。每个值都关联唯一的键，键作为字典中的这个值数据的标示符。无序</p>
+<p>Note:keyType的唯一的要求就是可哈希的。</p>
+<h3 id="字面量">字面量</h3><p>var dicts:[String:String] = [“name”:”dict”,”age”:”10”] 可以简化为 var dicts = [“name”:”dict”,”age”:”10”]</p>
+<h3 id="操作字典">操作字典</h3><p>count</p>
+<p>isEmpty</p>
+<p>修改值的两种方式</p>
+<ol>
+<li>下标操作<br> 下标操作可以为字典添加元素，这点不同于数组。也可以设置为nil移除键值对</li>
+<li>updateValue(forKey:) 此方法可以设置或者更新特定键对应的值。不过它会返回此键的原值</li>
+<li>removeValueForKey()同样会返回移除的值，如果不存在值的情况会返回nil</li>
+</ol>
+<ul>
+<li>字典遍历<br>for-in 遍历字典通常会将键值对以元组的形式返回，我们可以分解元组</li>
+</ul>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> dict = [<span class="string">"a"</span>:<span class="string">"1"</span>,<span class="string">"b"</span>:<span class="string">"2"</span>]</span><br><span class="line"><span class="keyword">for</span> (key,<span class="keyword">value</span>) <span class="keyword">in</span> dict&#123;</span><br><span class="line">	println(<span class="string">"key:"</span>+key+<span class="string">" value:"</span>+<span class="keyword">value</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们还可以使用它的keys和values属性遍历</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> <span class="variable">key</span> in dict.keys&#123;</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">"key:"</span>+<span class="variable">key</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Array(dict.keys)</p>
+<p>创建空字典 var dict = Dictionary<int,int>()<br>如果字典已经有了类型信息我们可以空字典字面量来创建一个空字典[:]<br>dict = [:]</int,int></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="数组">数组</h2><p>可以存储多个<code>类型相同</code>的值。不同于oc中的NSArray和NSMutableArray</p>
+<h3 id="两种声明方式">两种声明方式</h3><ol>
+<li><code>var ary :Array&l]]>
+    </summary>
+    
+      <category term="Array" scheme="http://zivlhoo.github.io/tags/Array/"/>
+    
+      <category term="Dictionary" scheme="http://zivlhoo.github.io/tags/Dictionary/"/>
+    
+      <category term="Set" scheme="http://zivlhoo.github.io/tags/Set/"/>
+    
+      <category term="Swift" scheme="http://zivlhoo.github.io/categories/Swift/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[控制流]]></title>
+    <link href="http://zivlhoo.github.io/2015/06/05/%E6%8E%A7%E5%88%B6%E6%B5%81/"/>
+    <id>http://zivlhoo.github.io/2015/06/05/控制流/</id>
+    <published>2015-06-05T14:02:51.000Z</published>
+    <updated>2015-06-05T14:40:24.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="For">For</h2><p>Swift中提供了两种for循环形式</p>
+<ul>
+<li>for-in 用来遍历一个区间，序列，集合，系列里面所有的元素执行一系列语句</li>
+<li>for条件递增语句</li>
+</ul>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> <span class="keyword">index</span> <span class="keyword">in</span> <span class="number">1</span>...<span class="number">5</span><span class="comment">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>其中index会隐式声明为常量；其只存在于循环的生命周期里。如果你不需要知道每项的值，你可以使用“_”替代变量名来忽略对值得访问：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> <span class="number">1.</span>..<span class="number">5</span>&#123;</span><br><span class="line">	<span class="comment">//statement</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> var <span class="built_in">i</span> = <span class="number">0</span>; <span class="built_in">i</span> &lt; <span class="number">10</span>;++<span class="built_in">i</span> <span class="cell">&#123;</span><br><span class="line">	//statement</span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="While">While</h2><p>Swift提供两种方式的while循环形式</p>
+<p><code>while</code>,每次在循环开始时计算条件是否符合</p>
+<p><code>do-while</code>，每次在循环结束计算条件是否符合</p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var <span class="keyword">index</span>:Int = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">index</span> &lt; <span class="number">5</span>&#123;</span><br><span class="line">	<span class="comment">//staement</span></span><br><span class="line">	++<span class="keyword">index</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var <span class="built_in">index</span>:<span class="built_in">Int</span> = <span class="number">0</span></span><br><span class="line"><span class="keyword">do</span>&#123;</span><br><span class="line">++<span class="built_in">index</span></span><br><span class="line">&#125;<span class="keyword">while</span>(<span class="built_in">index</span> &lt; <span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="条件语句">条件语句</h2><h3 id="IF">IF</h3><p>Swift 提供了两种类型的条件语句：if语句和switch语句。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="number">1</span> &lt; <span class="number">2</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span> <span class="number">2</span> &lt; <span class="number">3</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Switch">Switch</h3><h2 id="控制转移语句">控制转移语句</h2>]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="For">For</h2><p>Swift中提供了两种for循环形式</p>
+<ul>
+<li>for-in 用来遍历一个区间，序列，集合，系列里面所有的元素执行一系列语句</li>
+<li>for条件递增语句</li>
+</ul>
+<figure class="]]>
+    </summary>
+    
+      <category term="控制流" scheme="http://zivlhoo.github.io/tags/%E6%8E%A7%E5%88%B6%E6%B5%81/"/>
+    
+      <category term="Swift" scheme="http://zivlhoo.github.io/categories/Swift/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[字符串和字符]]></title>
+    <link href="http://zivlhoo.github.io/2015/06/04/StringandCharacters/"/>
+    <id>http://zivlhoo.github.io/2015/06/04/StringandCharacters/</id>
+    <published>2015-06-04T15:12:01.000Z</published>
+    <updated>2015-06-04T15:14:15.000Z</updated>
+    <content type="html"><![CDATA[<p>ddd</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>ddd</p>
+]]>
+    </summary>
+    
+      <category term="字符" scheme="http://zivlhoo.github.io/tags/%E5%AD%97%E7%AC%A6/"/>
+    
+      <category term="字符串" scheme="http://zivlhoo.github.io/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/"/>
+    
+      <category term="Swift" scheme="http://zivlhoo.github.io/categories/Swift/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[算术运算符]]></title>
+    <link href="http://zivlhoo.github.io/2015/06/04/operational-symbol/"/>
+    <id>http://zivlhoo.github.io/2015/06/04/operational-symbol/</id>
+    <published>2015-06-04T13:54:07.000Z</published>
+    <updated>2015-06-04T15:08:55.000Z</updated>
+    <content type="html"><![CDATA[<p>了解到Swift中得基本运算符，高级运算符，自定义运算符，自定义类型的运算符重载。</p>
+<p>与C语言的区别</p>
+<ol>
+<li>赋值号 = 不返回值</li>
+<li>可以对浮点型取余操作</li>
+<li>区间运算符</li>
+</ol>
+<h1 id="术语">术语</h1><p>运算符有一元、二元和三元运算符。</p>
+<h2 id="一元运算符">一元运算符</h2><p>一元运算符是指对单一对象进行操作</p>
+<ol>
+<li>前置</li>
+<li>后置</li>
+</ol>
+<h2 id="二元运算符">二元运算符</h2><p>二元运算符是中置的，因为他们出现在两个操作对象之间。</p>
+<h2 id="三元运算符">三元运算符</h2><p>只有一个三元操作符 a ? b:c</p>
+<h2 id="复合运算符">复合运算符</h2><h2 id="比较运算符">比较运算符</h2><p>恒等 ===  !== 判断两个对象是否引用同一个对象实例</p>
+<h2 id="空合运算符">空合运算符</h2><p><code>a ?? b</code>  ==  <code>a != nil ? a!:b</code></p>
+<ul>
+<li>表达式a必须是optioal类型</li>
+<li>默认值b的类型必须要和a存储值得类型保持一致</li>
+</ul>
+<p>功能 封装条件判断和解封两种行为</p>
+<p>短路计算</p>
+<h2 id="区间运算符">区间运算符</h2><p>Swift提供了两个区间的值的运算符</p>
+<ul>
+<li><p>闭区间运算符</p>
+<p>  <code>start...end</code> 定义一个包含从start到end的所有值得区间，end必须大于start。</p>
+</li>
+<li><p>半开区间运算符</p>
+<p>  <code>start..&lt;end</code>定义一个从start到end但不包括end的区间。</p>
+</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>了解到Swift中得基本运算符，高级运算符，自定义运算符，自定义类型的运算符重载。</p>
+<p>与C语言的区别</p>
+<ol>
+<li>赋值号 = 不返回值</li>
+<li>可以对浮点型取余操作</li>
+<li>区间运算符</li>
+</ol>
+<h1 id="术语]]>
+    </summary>
+    
+      <category term="Swift算术运算符" scheme="http://zivlhoo.github.io/tags/Swift%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97%E7%AC%A6/"/>
+    
+      <category term="Swift" scheme="http://zivlhoo.github.io/categories/Swift/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Swift基础]]></title>
+    <link href="http://zivlhoo.github.io/2015/06/04/Swift-Basic/"/>
+    <id>http://zivlhoo.github.io/2015/06/04/Swift-Basic/</id>
+    <published>2015-06-04T12:02:38.000Z</published>
+    <updated>2015-06-04T13:57:11.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="常量和变量">常量和变量</h1><ol>
+<li>声明关键字</li>
+<li>类型标注语法，以及与声明联合使用会发生怎么样的改变（之前怎样，之后又怎样）</li>
+<li>命名规则：不能包含数学符号，箭头，保留的或者非法的Unicode码位，连线与制表符，不能以数字开头</li>
+<li>如何使用Swift关键字命名</li>
+<li>print与println的区别</li>
+<li>println格式化输出字符串（字符串插值的方式）</li>
+</ol>
+<h1 id="注释">注释</h1><ol>
+<li>单行注释//</li>
+<li>多行注释 （多行注释支持嵌套在其它的多行注释中）</li>
+</ol>
+<h1 id="整数">整数</h1><p>Swift提供了8，16，32和64位的有符号和无符号整数类型 UInt8 Int8</p>
+<ol>
+<li>整数范围UInt8.min |max<h1 id="浮点数">浮点数</h1></li>
+<li>Double 至少15位数字（类型推断：如果没有给浮点型字面量标明类型，Swift优先Double）</li>
+<li>Float  至少6位数字</li>
+</ol>
+<h1 id="数值类型">数值类型</h1><ol>
+<li>数值型字面量的前缀 0b,0o,0x</li>
+<li>类型转换（调用类型的构造器）</li>
+<li>数字类量不同于数字类字面量。（数字字面量可以直接相加，而数字类量需要类型转换）</li>
+</ol>
+<h1 id="别名">别名</h1><p>typealias newType = oldType</p>
+<h1 id="Bool">Bool</h1><h1 id="元组">元组</h1><p>可以把多个甚至类型不同的数据组合成一个复合值</p>
+<ol>
+<li>声明元组语法 var test = (“abc”,10,False)</li>
+<li>分解元组var (a,b,c) = test。使用<em>可以忽略掉元组值 var (a,</em>,c) = test</li>
+<li>通过索引访问元组 test.0,test.1</li>
+<li>通过名称访问元组，不过之前得给元素设置名称 var test = (e1:”abc”,e2:10,e3:False) 使用test.e1</li>
+</ol>
+<h1 id="可选类型">可选类型</h1><ol>
+<li>语法 var a:Int? = 10</li>
+<li>if与强行解析 可以判断值是否为nil，变量名后面!来获取值，不加!会输出Optional(10)类似的结果;强制解析nil会引发异常</li>
+<li>可选绑定if var a = “123”.toInt() {}如果toInt返回的Int？包含一个值，就创建变量a并将可选的值赋给它（不需要使用!取值）。</li>
+<li>nil不能用于非可选的常量和变量</li>
+<li>如果可选类型没有赋值，它们会自动被设置为nil</li>
+<li>Oc中nil与Swift中的nil区别。OC中nil表示一个不存在的指针，swift中nil不是指针而表示一个确定的值。任何类型的可选状态都可以设置为nil，不只是对象类型</li>
+</ol>
+<h1 id="隐式解析可选类型">隐式解析可选类型</h1><ol>
+<li>语法var acd : Int! = 10 主要应用在类的构造过程中</li>
+<li>可选类型与隐式解析可选类型的区别 前者需要使用!，后者不用!就可以取值。</li>
+<li>如果在隐式解析可选类型没有值的情况下取值会触发运行时错误。<br>Note：如果变量之后可能会变成nil的话请不要使用隐式解析可选类型，如果你需要在变量的生命周期中判断是否是nil的话，请使用普通可选类型。</li>
+</ol>
+<h1 id="断言">断言</h1><p>断言的使用场景 如果值缺失或者不满足特定的条件，你的代码可能没办法继续执行。这是可以使用断言来结束代码运行并通过调试来找到缺失的原因。</p>
+<ol>
+<li>断言False 则终止程序 True继续执行</li>
+<li>assert(False,”断言消息”) 断言信息可以省略</li>
+</ol>
+<p>具体的使用场景</p>
+<ol>
+<li>整数类型的下标索引被传入一个自定义下标脚本实现，但是下标索引值可能太大或者太小</li>
+<li>给函数传入非法的值</li>
+<li>一个可选值现在时nil，但是后面的代码运行需要一个非nil值</li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h1 id="常量和变量">常量和变量</h1><ol>
+<li>声明关键字</li>
+<li>类型标注语法，以及与声明联合使用会发生怎么样的改变（之前怎样，之后又怎样）</li>
+<li>命名规则：不能包含数学符号，箭头，保留的或者非法的Unicode码位，连线与制表符，不能]]>
+    </summary>
+    
+      <category term="Swift基础" scheme="http://zivlhoo.github.io/tags/Swift%E5%9F%BA%E7%A1%80/"/>
+    
+      <category term="Swift" scheme="http://zivlhoo.github.io/categories/Swift/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[笔记-策略模式]]></title>
+    <link href="http://zivlhoo.github.io/2015/05/31/Strategy/"/>
+    <id>http://zivlhoo.github.io/2015/05/31/Strategy/</id>
+    <published>2015-05-30T16:40:50.000Z</published>
+    <updated>2015-06-01T14:46:22.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="需求">需求</h2><p>同学们都玩过游戏吧！<br>在游戏世界中有很多角色供我们选择，每个角色的攻击方式都不一样，比如说刀砍、剑刺、射箭…<br>那么问题来了，我们如何设计多个角色以及他们的攻击行为呢。</p>
+<h2 id="实现">实现</h2><h3 id="方式1">方式1</h3><ol>
+<li>定义一个角色父类并且提供一个攻击方法</li>
+<li>所有子类皆继承此父类</li>
+</ol>
+<h4 id="代码">代码</h4><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  characters.h</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//角色父类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">Character</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">attack</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//刽子手</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">Executioner</span> : <span class="title">public</span> <span class="title">Character</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  characters.cpp</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> "character.h"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Character::attack()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"Character attack"</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="分析结论">分析结论</h4><p>对于目前的需求完全没有问题。可是多个角色该如何实现呢？如果继续延用上面的实现思路让每个角色都继承<code>Character</code>类，这样会导致只要子类的攻击行为与父类的不同，子类就必须重写父类的<code>attack</code>方法（缺乏灵活）；而又如果有2个子类的攻击方式相同我们又不能复用代码(无法复用)。那我们就试试第二种方式吧。</p>
+<h4 id="缺点">缺点</h4><ol>
+<li>缺乏弹性不够灵活</li>
+<li>代码无法复用</li>
+</ol>
+<h3 id="方式2">方式2</h3><ol>
+<li>将攻击方式提取出来定义成接口</li>
+<li>各个角色子类实现此接口</li>
+</ol>
+<h4 id="代码-1">代码</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  characters.h</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> AttackBehavior</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//角色父类</span></span><br><span class="line"><span class="keyword">class</span> Character</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">attack</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//刽子手</span></span><br><span class="line"><span class="keyword">class</span> Executioner : <span class="keyword">public</span> Character ,<span class="keyword">public</span> AttackBehavior</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">attack</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//剑客</span></span><br><span class="line"><span class="keyword">class</span> SwordsMan : <span class="keyword">public</span> Character ,<span class="keyword">public</span> AttackBehavior</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">attack</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  characters.cpp</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> "characters.h"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> AttackBehavior::attack()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Executioner::attack()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"Executioner::attack"</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> SwordsMan::attack()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"SwordsMan::attack"</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="分析结论-1">分析结论</h4><p>这种方式比方式1够灵活，可是代码依然不能复用。<br>这两种方式都依赖于“实现”，我们被实现绑的死死的，没办法改角色的攻击方式。</p>
+<h4 id="缺点-1">缺点</h4><ol>
+<li>代码无法复用</li>
+</ol>
+<h3 id="最终实现">最终实现</h3><p>首先这里引出二条设计原则：</p>
+<ul>
+<li><code>找出应用中可能需要变化之处，把它们独立出来，不要和那些不需要变化的代码混在一起。</code></li>
+<li><code>针对接口编程，而不是针对实现编程。</code></li>
+</ul>
+<ol>
+<li>把角色的攻击行为取出来定义成接口，再由其他具体的攻击行为实现它。</li>
+<li>在父类中把行为组合到角色中来。</li>
+</ol>
+<h4 id="代码-2">代码</h4><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  characters.h</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//攻击接口</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">AttackBehavior</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">attack</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//刽子手攻击行为</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">ExecutionerBehavior</span> : <span class="title">public</span> <span class="title">AttackBehavior</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:	</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">attack</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//剑客攻击行为</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">SwordsManBehavior</span> : <span class="title">public</span> <span class="title">AttackBehavior</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:	</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">attack</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//弓箭手攻击行为</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">ArcherBehavior</span> : <span class="title">public</span> <span class="title">AttackBehavior</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:	</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">attack</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//角色-父类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">Character</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	Character();</span><br><span class="line"></span><br><span class="line">	<span class="comment">//角色攻击方法</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">attack</span>(<span class="params"></span>)</span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">setAttackBehavior</span>(<span class="params">AttackBehavior*</span>)</span>;</span><br><span class="line">	AttackBehavior* getAttackBehavior();</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="comment">//攻击行为变量</span></span><br><span class="line">	AttackBehavior *_attackBehavior;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//角色-刽子手</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">Executioner</span> : <span class="title">public</span> <span class="title">Character</span> </span><br><span class="line">&#123;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//角色-剑客</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">SwordsMan</span> : <span class="title">public</span> <span class="title">Character</span> </span><br><span class="line">&#123;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//角色-弓箭手</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">Archer</span> : <span class="title">public</span> <span class="title">Character</span> </span><br><span class="line">&#123;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  characters.cpp</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> "characters.h"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> AttackBehavior::attack()</span><br><span class="line">&#123;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> ExecutionerBehavior::attack()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"exec Executioner::attack"</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> SwordsManBehavior::attack()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"exec SwordsMan::attack"</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> ArcherBehavior::attack()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"exec Archer::attack"</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Character::Character():_attackBehavior(NULL)</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Character::attack()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (!_attackBehavior)<span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">	_attackBehavior-&gt;attack();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Character::setAttackBehavior(AttackBehavior *attackBehavior)</span><br><span class="line">&#123;</span><br><span class="line">	_attackBehavior = attackBehavior;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">AttackBehavior* Character::getAttackBehavior()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> _attackBehavior;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	SwordsManBehavior swordsManBehavior;</span><br><span class="line">	ArcherBehavior 	  archerBehavior;</span><br><span class="line"></span><br><span class="line">	SwordsMan character;</span><br><span class="line">	character.setAttackBehavior(&amp;swordsManBehavior);</span><br><span class="line">	character.attack();</span><br><span class="line"></span><br><span class="line">	character.setAttackBehavior(&amp;archerBehavior);</span><br><span class="line">	character.attack();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="分析结论-2">分析结论</h4><p>最终方式迥异于前两种方式，前两种的做法是：行为来自<code>Character</code>父类的具体实现，或是继承某个接口并由子类自行实现而来。<br>这种做法和“继承”不同的地方在于，角色的行为不是继承来的，而是和适当的行为对象“组合”来的。<br>这是一个很重要的技巧。其实这就是第三个设计原则：</p>
+<ul>
+<li><code>多用组合，少用继承。</code></li>
+</ul>
+<h2 id="总结">总结</h2><h3 id="策略模式">策略模式</h3><p>定义了算法族，分别封装起来，但它们之间可以互相替换，此模式让算法的变化独立于使用算法的客户。</p>
+<h3 id="设计模式的好处">设计模式的好处</h3><ol>
+<li>让开发人员之间有共享的词汇。</li>
+<li>可以把你的思考架构的层次提高到模式层面，而不是仅停留在琐碎的对象上。</li>
+</ol>
+<h3 id="设计原则">设计原则</h3><ol>
+<li>找出应用中可能需要变化之处，把它们独立出来，不要和那些不需要变化的代码混在一起。</li>
+<li>针对接口编程，而不是针对实现编程。</li>
+<li>多用组合，少用继承。</li>
+</ol>
+<h3 id="建议">建议</h3><ol>
+<li>有一些面向对象原则，适用于所有的模式。当你无法找到适当的模式解决问题时，采用这些原则可以帮助你。</li>
+<li>建立可维护的OO系统，要诀就在于随时想到系统以后可能需要的变化以及应付变化的原则。</li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="需求">需求</h2><p>同学们都玩过游戏吧！<br>在游戏世界中有很多角色供我们选择，每个角色的攻击方式都不一样，比如说刀砍、剑刺、射箭…<br>那么问题来了，我们如何设计多个角色以及他们的攻击行为呢。</p>
+<h2 id="实现">实现</h2><h3 i]]>
+    </summary>
+    
+      <category term="Head First" scheme="http://zivlhoo.github.io/tags/Head-First/"/>
+    
+      <category term="策略模式" scheme="http://zivlhoo.github.io/tags/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/"/>
+    
+      <category term="设计模式" scheme="http://zivlhoo.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+      <category term="笔记" scheme="http://zivlhoo.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
+  
+</feed>

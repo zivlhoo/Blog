@@ -1,0 +1,555 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>笔记-策略模式 | Ziv&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Ziv Hoo">
+    
+
+    
+    <meta name="description" content="需求同学们都玩过游戏吧！在游戏世界中有很多角色供我们选择，每个角色的攻击方式都不一样，比如说刀砍、剑刺、射箭…那么问题来了，我们如何设计多个角色以及他们的攻击行为呢。
+实现方式1
+定义一个角色父类并且提供一个攻击方法
+所有子类皆继承此父类
+
+代码1234567891011121314151617////  characters.h////角色父类class Character&amp;#123;publi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="笔记-策略模式">
+<meta property="og:url" content="http://zivlhoo.github.io/2015/05/31/Strategy/index.html">
+<meta property="og:site_name" content="Ziv's Blog">
+<meta property="og:description" content="需求同学们都玩过游戏吧！在游戏世界中有很多角色供我们选择，每个角色的攻击方式都不一样，比如说刀砍、剑刺、射箭…那么问题来了，我们如何设计多个角色以及他们的攻击行为呢。
+实现方式1
+定义一个角色父类并且提供一个攻击方法
+所有子类皆继承此父类
+
+代码1234567891011121314151617////  characters.h////角色父类class Character&amp;#123;publi">
+<meta property="og:updated_time" content="2015-06-01T14:46:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="笔记-策略模式">
+<meta name="twitter:description" content="需求同学们都玩过游戏吧！在游戏世界中有很多角色供我们选择，每个角色的攻击方式都不一样，比如说刀砍、剑刺、射箭…那么问题来了，我们如何设计多个角色以及他们的攻击行为呢。
+实现方式1
+定义一个角色父类并且提供一个攻击方法
+所有子类皆继承此父类
+
+代码1234567891011121314151617////  characters.h////角色父类class Character&amp;#123;publi">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Ziv&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Ziv&#39;s Blog" title="Ziv&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Ziv&#39;s Blog">Ziv&#39;s Blog</a></h1>
+				<h2 class="blog-motto">生命本没有意义，而我要做点儿有意义的事！</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:zivlhoo.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/05/31/Strategy/" title="笔记-策略模式" itemprop="url">笔记-策略模式</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Ziv Hoo" target="_blank" itemprop="author">Ziv Hoo</a>
+		
+  <p class="article-time">
+    <time datetime="2015-05-30T16:40:50.000Z" itemprop="datePublished"> 发表于 2015-05-31</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#需求"><span class="toc-number">1.</span> <span class="toc-text">需求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现"><span class="toc-number">2.</span> <span class="toc-text">实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方式1"><span class="toc-number">2.1.</span> <span class="toc-text">方式1</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#代码"><span class="toc-number">2.1.1.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分析结论"><span class="toc-number">2.1.2.</span> <span class="toc-text">分析结论</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#缺点"><span class="toc-number">2.1.3.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方式2"><span class="toc-number">2.2.</span> <span class="toc-text">方式2</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#代码-1"><span class="toc-number">2.2.1.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分析结论-1"><span class="toc-number">2.2.2.</span> <span class="toc-text">分析结论</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#缺点-1"><span class="toc-number">2.2.3.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最终实现"><span class="toc-number">2.3.</span> <span class="toc-text">最终实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#代码-2"><span class="toc-number">2.3.1.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分析结论-2"><span class="toc-number">2.3.2.</span> <span class="toc-text">分析结论</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#策略模式"><span class="toc-number">3.1.</span> <span class="toc-text">策略模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设计模式的好处"><span class="toc-number">3.2.</span> <span class="toc-text">设计模式的好处</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设计原则"><span class="toc-number">3.3.</span> <span class="toc-text">设计原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#建议"><span class="toc-number">3.4.</span> <span class="toc-text">建议</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h2 id="需求">需求</h2><p>同学们都玩过游戏吧！<br>在游戏世界中有很多角色供我们选择，每个角色的攻击方式都不一样，比如说刀砍、剑刺、射箭…<br>那么问题来了，我们如何设计多个角色以及他们的攻击行为呢。</p>
+<h2 id="实现">实现</h2><h3 id="方式1">方式1</h3><ol>
+<li>定义一个角色父类并且提供一个攻击方法</li>
+<li>所有子类皆继承此父类</li>
+</ol>
+<h4 id="代码">代码</h4><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  characters.h</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//角色父类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">Character</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">attack</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//刽子手</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">Executioner</span> : <span class="title">public</span> <span class="title">Character</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  characters.cpp</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> "character.h"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Character::attack()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"Character attack"</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="分析结论">分析结论</h4><p>对于目前的需求完全没有问题。可是多个角色该如何实现呢？如果继续延用上面的实现思路让每个角色都继承<code>Character</code>类，这样会导致只要子类的攻击行为与父类的不同，子类就必须重写父类的<code>attack</code>方法（缺乏灵活）；而又如果有2个子类的攻击方式相同我们又不能复用代码(无法复用)。那我们就试试第二种方式吧。</p>
+<h4 id="缺点">缺点</h4><ol>
+<li>缺乏弹性不够灵活</li>
+<li>代码无法复用</li>
+</ol>
+<h3 id="方式2">方式2</h3><ol>
+<li>将攻击方式提取出来定义成接口</li>
+<li>各个角色子类实现此接口</li>
+</ol>
+<h4 id="代码-1">代码</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  characters.h</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> AttackBehavior</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//角色父类</span></span><br><span class="line"><span class="keyword">class</span> Character</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">attack</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//刽子手</span></span><br><span class="line"><span class="keyword">class</span> Executioner : <span class="keyword">public</span> Character ,<span class="keyword">public</span> AttackBehavior</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">attack</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//剑客</span></span><br><span class="line"><span class="keyword">class</span> SwordsMan : <span class="keyword">public</span> Character ,<span class="keyword">public</span> AttackBehavior</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">attack</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  characters.cpp</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> "characters.h"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> AttackBehavior::attack()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Executioner::attack()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"Executioner::attack"</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> SwordsMan::attack()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"SwordsMan::attack"</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="分析结论-1">分析结论</h4><p>这种方式比方式1够灵活，可是代码依然不能复用。<br>这两种方式都依赖于“实现”，我们被实现绑的死死的，没办法改角色的攻击方式。</p>
+<h4 id="缺点-1">缺点</h4><ol>
+<li>代码无法复用</li>
+</ol>
+<h3 id="最终实现">最终实现</h3><p>首先这里引出二条设计原则：</p>
+<ul>
+<li><code>找出应用中可能需要变化之处，把它们独立出来，不要和那些不需要变化的代码混在一起。</code></li>
+<li><code>针对接口编程，而不是针对实现编程。</code></li>
+</ul>
+<ol>
+<li>把角色的攻击行为取出来定义成接口，再由其他具体的攻击行为实现它。</li>
+<li>在父类中把行为组合到角色中来。</li>
+</ol>
+<h4 id="代码-2">代码</h4><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  characters.h</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//攻击接口</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">AttackBehavior</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">attack</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//刽子手攻击行为</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">ExecutionerBehavior</span> : <span class="title">public</span> <span class="title">AttackBehavior</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:	</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">attack</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//剑客攻击行为</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">SwordsManBehavior</span> : <span class="title">public</span> <span class="title">AttackBehavior</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:	</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">attack</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//弓箭手攻击行为</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">ArcherBehavior</span> : <span class="title">public</span> <span class="title">AttackBehavior</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:	</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">attack</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//角色-父类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">Character</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	Character();</span><br><span class="line"></span><br><span class="line">	<span class="comment">//角色攻击方法</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">attack</span>(<span class="params"></span>)</span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">setAttackBehavior</span>(<span class="params">AttackBehavior*</span>)</span>;</span><br><span class="line">	AttackBehavior* getAttackBehavior();</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="comment">//攻击行为变量</span></span><br><span class="line">	AttackBehavior *_attackBehavior;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//角色-刽子手</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">Executioner</span> : <span class="title">public</span> <span class="title">Character</span> </span><br><span class="line">&#123;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//角色-剑客</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">SwordsMan</span> : <span class="title">public</span> <span class="title">Character</span> </span><br><span class="line">&#123;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//角色-弓箭手</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">Archer</span> : <span class="title">public</span> <span class="title">Character</span> </span><br><span class="line">&#123;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  characters.cpp</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> "characters.h"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> AttackBehavior::attack()</span><br><span class="line">&#123;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> ExecutionerBehavior::attack()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"exec Executioner::attack"</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> SwordsManBehavior::attack()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"exec SwordsMan::attack"</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> ArcherBehavior::attack()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"exec Archer::attack"</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Character::Character():_attackBehavior(NULL)</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Character::attack()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (!_attackBehavior)<span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">	_attackBehavior-&gt;attack();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Character::setAttackBehavior(AttackBehavior *attackBehavior)</span><br><span class="line">&#123;</span><br><span class="line">	_attackBehavior = attackBehavior;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">AttackBehavior* Character::getAttackBehavior()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> _attackBehavior;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	SwordsManBehavior swordsManBehavior;</span><br><span class="line">	ArcherBehavior 	  archerBehavior;</span><br><span class="line"></span><br><span class="line">	SwordsMan character;</span><br><span class="line">	character.setAttackBehavior(&amp;swordsManBehavior);</span><br><span class="line">	character.attack();</span><br><span class="line"></span><br><span class="line">	character.setAttackBehavior(&amp;archerBehavior);</span><br><span class="line">	character.attack();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="分析结论-2">分析结论</h4><p>最终方式迥异于前两种方式，前两种的做法是：行为来自<code>Character</code>父类的具体实现，或是继承某个接口并由子类自行实现而来。<br>这种做法和“继承”不同的地方在于，角色的行为不是继承来的，而是和适当的行为对象“组合”来的。<br>这是一个很重要的技巧。其实这就是第三个设计原则：</p>
+<ul>
+<li><code>多用组合，少用继承。</code></li>
+</ul>
+<h2 id="总结">总结</h2><h3 id="策略模式">策略模式</h3><p>定义了算法族，分别封装起来，但它们之间可以互相替换，此模式让算法的变化独立于使用算法的客户。</p>
+<h3 id="设计模式的好处">设计模式的好处</h3><ol>
+<li>让开发人员之间有共享的词汇。</li>
+<li>可以把你的思考架构的层次提高到模式层面，而不是仅停留在琐碎的对象上。</li>
+</ol>
+<h3 id="设计原则">设计原则</h3><ol>
+<li>找出应用中可能需要变化之处，把它们独立出来，不要和那些不需要变化的代码混在一起。</li>
+<li>针对接口编程，而不是针对实现编程。</li>
+<li>多用组合，少用继承。</li>
+</ol>
+<h3 id="建议">建议</h3><ol>
+<li>有一些面向对象原则，适用于所有的模式。当你无法找到适当的模式解决问题时，采用这些原则可以帮助你。</li>
+<li>建立可维护的OO系统，要诀就在于随时想到系统以后可能需要的变化以及应付变化的原则。</li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/设计模式/">设计模式</a>►<a class="article-category-link" href="/categories/设计模式/笔记/">笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Head-First/">Head First</a><a href="/tags/策略模式/">策略模式</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zivlhoo.github.io/2015/05/31/Strategy/" data-title="笔记-策略模式 | Ziv&#39;s Blog" data-tsina="5062630559" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/06/04/Swift-Basic/" title="Swift基础">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Swift基础</span>
+</a>
+</div>
+
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/05/31/Strategy/" data-title="笔记-策略模式" data-url="http://zivlhoo.github.io/2015/05/31/Strategy/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#需求"><span class="toc-number">1.</span> <span class="toc-text">需求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现"><span class="toc-number">2.</span> <span class="toc-text">实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方式1"><span class="toc-number">2.1.</span> <span class="toc-text">方式1</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#代码"><span class="toc-number">2.1.1.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分析结论"><span class="toc-number">2.1.2.</span> <span class="toc-text">分析结论</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#缺点"><span class="toc-number">2.1.3.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方式2"><span class="toc-number">2.2.</span> <span class="toc-text">方式2</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#代码-1"><span class="toc-number">2.2.1.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分析结论-1"><span class="toc-number">2.2.2.</span> <span class="toc-text">分析结论</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#缺点-1"><span class="toc-number">2.2.3.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最终实现"><span class="toc-number">2.3.</span> <span class="toc-text">最终实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#代码-2"><span class="toc-number">2.3.1.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分析结论-2"><span class="toc-number">2.3.2.</span> <span class="toc-text">分析结论</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#策略模式"><span class="toc-number">3.1.</span> <span class="toc-text">策略模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设计模式的好处"><span class="toc-number">3.2.</span> <span class="toc-text">设计模式的好处</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设计原则"><span class="toc-number">3.3.</span> <span class="toc-text">设计原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#建议"><span class="toc-number">3.4.</span> <span class="toc-text">建议</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Swift/" title="Swift">Swift<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/笔记/" title="笔记">笔记<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Array/" title="Array">Array<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Set/" title="Set">Set<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dictionary/" title="Dictionary">Dictionary<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/控制流/" title="控制流">控制流<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Swift算术运算符/" title="Swift算术运算符">Swift算术运算符<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Swift基础/" title="Swift基础">Swift基础<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/字符串/" title="字符串">字符串<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/字符/" title="字符">字符<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/策略模式/" title="策略模式">策略模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Head-First/" title="Head First">Head First<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Ziv Hoo in OurGame. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5062630559" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zivlhoo" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:zivlhoo@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Ziv Hoo">Ziv Hoo</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zivlhoo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
