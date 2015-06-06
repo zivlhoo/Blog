@@ -1,4 +1,4 @@
-title: Closures
+title: 闭包Closures
 date: 2015-06-06 15:33:49
 tags: [闭包,尾随闭包]
 categories: [Swift]
